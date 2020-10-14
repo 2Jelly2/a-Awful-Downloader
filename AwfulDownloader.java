@@ -35,8 +35,6 @@ class AwfulDownloader
 					coNeHTTPS.setRequestProperty("User-Agent", userAgent);
 					//System.out.println("Response Code: " + coNeHTTPS.getResponseCode());
 					coNe = coNeHTTPS;
-					System.out.println(coNe.getRequestProperties());
-					System.out.println(coNeHTTPS.getRequestProperties());
 					break;
 				}
 				default:
