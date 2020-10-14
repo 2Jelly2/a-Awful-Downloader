@@ -55,7 +55,7 @@ class AwfulDownloader
 				outputStream.write(buffer, 0, bytesNum);
 			}
 			outputStream.close();
-			System.out.println("Download Complete.\nTime Cost: " + (System.currentTimeMillis() - startTime));
+			System.out.println("Download Complete.\nTime Cost: " + (System.currentTimeMillis() - startTime) + "ms");
 		}
 		catch(IOException e)
 		{
