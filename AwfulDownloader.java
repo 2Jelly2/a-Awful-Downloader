@@ -65,8 +65,9 @@ class AwfulDownloader
 	
 	public static void main(String args[])
 	{
-		//String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
-		String defaultURL = "https://api64.ipify.org/";
+		//String defaultURL = "https://mirrors.neusoft.edu.cn/eclipse/oomph/epp/2020-09/R/eclipse-inst-jre-win64.exe";
+		String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
+		//String defaultURL = "https://api64.ipify.org/";
 		AwfulDownloader pdl = new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
 	}
 	
