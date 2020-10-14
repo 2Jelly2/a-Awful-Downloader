@@ -15,13 +15,13 @@ class AwfulDownloader
 		try
 		{
 			URL url = new URL(urlText);
-			URLConnection coNe = url.openConnection();
+			URLConnection coNe;
 			
 			switch(url.getProtocol())
 			{
 				case "http":
 				{
-					HttpURLConnection coNeHTTP = (HttpURLConnection) coNe;
+					HttpURLConnection coNeHTTP = (HttpURLConnection) url.openConnection();
 					coNeHTTP.setRequestMethod("GET");
 					coNeHTTP.setRequestProperty("User-Agent", userAgent);
 					//System.out.println("Response Code: " + coNeHTTP.getResponseCode());
@@ -30,11 +30,13 @@ class AwfulDownloader
 				}
 				case "https":
 				{
-					HttpsURLConnection coNeHTTPS = (HttpsURLConnection) coNe;
+					HttpsURLConnection coNeHTTPS = (HttpsURLConnection) url.openConnection();
 					coNeHTTPS.setRequestMethod("GET");
 					coNeHTTPS.setRequestProperty("User-Agent", userAgent);
 					//System.out.println("Response Code: " + coNeHTTPS.getResponseCode());
 					coNe = coNeHTTPS;
+					System.out.println(coNe.getRequestProperties());
+					System.out.println(coNeHTTPS.getRequestProperties());
 					break;
 				}
 				default:
@@ -43,7 +45,6 @@ class AwfulDownloader
 					return;
 				}
 			}
-			
 			fileName = getFilename(url.getPath());
 			OutputStream outputStream = new FileOutputStream(fileName == null ? "output.txt" : fileName);
 			
@@ -66,8 +67,8 @@ class AwfulDownloader
 	
 	public static void main(String args[])
 	{
-		String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
-		//String defaultURL = "https://api64.ipify.org/";
+		//String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
+		String defaultURL = "https://api64.ipify.org/";
 		AwfulDownloader pdl = new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
 	}
 	
@@ -82,6 +83,6 @@ class AwfulDownloader
 		return fileName;
 	}
 
-	private String userAgent = "Pale Downloader v0.1";
+	private String userAgent = "Awful Downloader v0.1";
 	private String fileName;
 }
