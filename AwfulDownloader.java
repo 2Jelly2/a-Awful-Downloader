@@ -48,7 +48,7 @@ class AwfulDownloader
 			
 			long startTime = System.currentTimeMillis();
 			InputStream inputStream = coNe.getInputStream();
-			byte buffer[] = new byte[inputStream.available()];
+			byte[] buffer = new byte[inputStream.available()];
 			int bytesNum;
 			while((bytesNum = inputStream.read(buffer)) > 0)
 			{
