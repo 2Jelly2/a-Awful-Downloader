@@ -5,10 +5,10 @@ import java.io.PrintWriter;
 import java.io.FileOutputStream;
 //import java.util.ArrayList;
 import java.util.StringTokenizer;
+import java.net.URL;
 import java.net.Socket;
 //import java.net.InetAddress;
 //import java.net.InetSocketAddress;
-import java.net.URL;
 
 public class AwfulDownloader
 {
@@ -40,6 +40,7 @@ public class AwfulDownloader
             String request = "GET " + url.getPath() + " HTTP/1.1\r\n";
             request += "Host: " + url.getHost() + ":" + port +"\r\n";
             request += "Connection: close\r\n";
+            request += "User-Agent: " + userAgent + "\r\n";
             PrintWriter pWriter = new PrintWriter(client.getOutputStream(), true);
             pWriter.println(request);
 
