@@ -12,7 +12,17 @@ import java.net.URL;
 
 class AwfulDownloader
 {
+	public AwfulDownloader()
+	{
+		
+	}
+
 	public AwfulDownloader(String urlText)
+	{
+		download(urlText);
+	}
+	
+	public void download(String urlText)
 	{
 		try
 		{
@@ -85,7 +95,10 @@ class AwfulDownloader
 		//String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
 		//String defaultURL = "http://api64.ipify.org/";
 		String defaultURL = "http://lain.bgm.tv/pic/cover/l/7f/4e/209615_iAw8I.jpg";
-		AwfulDownloader pdl = new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
+		
+		//AwfulDownloader pdl = new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
+		AwfulDownloader pdl = new AwfulDownloader();
+		pdl.download(args.length == 0 ? defaultURL : args[0]);
 	}
 	
 	private String getFilename(String path)
@@ -100,5 +113,5 @@ class AwfulDownloader
 		return fileName == null ? "output.txt" : fileName;
 	}
 
-	private String userAgent = "Awful Downloader v0.1";
+	//private String userAgent = "Awful Downloader v0.1";
 }
