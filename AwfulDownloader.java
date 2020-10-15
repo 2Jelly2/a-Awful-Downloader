@@ -1,12 +1,13 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.FileOutputStream;
 import java.util.StringTokenizer;
+import java.net.Socket;
+//import java.net.InetAddress;
+//import java.net.InetSocketAddress;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.HttpURLConnection;
-import javax.net.ssl.HttpsURLConnection;
 
 class AwfulDownloader
 {
@@ -15,46 +16,32 @@ class AwfulDownloader
 		try
 		{
 			URL url = new URL(urlText);
-			URLConnection coNe;
+			int port = url.getPort() == -1 ? url.getDefaultPort() : url.getPort();
+			Socket client = new Socket(url.getHost(), port);
 			
-			switch(url.getProtocol())
-			{
-				case "http":
-				{
-					HttpURLConnection coNeHTTP = (HttpURLConnection) url.openConnection();
-					coNeHTTP.setRequestMethod("GET");
-					coNeHTTP.setRequestProperty("User-Agent", userAgent);
-					//System.out.println("Response Code: " + coNeHTTP.getResponseCode());
-					coNe = coNeHTTP;
-					break;
-				}
-				case "https":
-				{
-					HttpsURLConnection coNeHTTPS = (HttpsURLConnection) url.openConnection();
-					coNeHTTPS.setRequestMethod("GET");
-					coNeHTTPS.setRequestProperty("User-Agent", userAgent);
-					//System.out.println("Response Code: " + coNeHTTPS.getResponseCode());
-					coNe = coNeHTTPS;
-					break;
-				}
-				default:
-				{
-					System.out.println("Unsupported Protocol!");
-					return;
-				}
-			}
+			/*
+			Socket client = new Socket();
+            InetSocketAddress socketAddr = new InetSocketAddress(url.getHost(), port);
+            client.connect(socketAddr);
+            */
+            
 			fileName = getFilename(url.getPath());
 			OutputStream outputStream = new FileOutputStream(fileName == null ? "output.txt" : fileName);
 			
 			long startTime = System.currentTimeMillis();
-			InputStream inputStream = coNe.getInputStream();
-			byte[] buffer = new byte[inputStream.available()];
+            String request = "GET " + url.getPath() + " HTTP/1.1\r\n" + "Host: " + url.getHost() + ":" + port +"\r\n";
+            PrintWriter pWriter = new PrintWriter(client.getOutputStream(),true);
+            pWriter.println(request);
+            
+			InputStream inputStream = client.getInputStream();
+			byte[] buffer = new byte[8 * 1024];
 			int bytesNum;
-			while((bytesNum = inputStream.read(buffer)) > 0)
+			while((bytesNum = inputStream.read(buffer)) != -1)
 			{
 				outputStream.write(buffer, 0, bytesNum);
 			}
 			outputStream.close();
+			client.close();
 			System.out.println("Download Complete.\nTime Cost: " + (System.currentTimeMillis() - startTime) + "ms");
 		}
 		catch(IOException e)
@@ -66,8 +53,8 @@ class AwfulDownloader
 	public static void main(String args[])
 	{
 		//String defaultURL = "https://mirrors.neusoft.edu.cn/eclipse/oomph/epp/2020-09/R/eclipse-inst-jre-win64.exe";
-		String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
-		//String defaultURL = "https://api64.ipify.org/";
+		//String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
+		String defaultURL = "http://api64.ipify.org/";
 		AwfulDownloader pdl = new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
 	}
 	
