@@ -12,14 +12,9 @@ import java.net.Socket;
 
 public class AwfulDownloader
 {
-	public AwfulDownloader()
-	{
-		userAgent = "Awful Downloader v0.2";
-	}
-
 	public AwfulDownloader(String urlText)
 	{
-		this();
+		userAgent = "Awful Downloader v0.2";
 		download(urlText);
 	}
 	
@@ -49,6 +44,7 @@ public class AwfulDownloader
 			OutputStream outputStream = new FileOutputStream(getFilename(url.getPath()));
 			
 			// Skip until contents
+			// TBD: range for all escape chars that might appear?
 			int bytesNum;
 			byte buffer[] = new byte[1];
 			//ArrayList<String> headers = new ArrayList<String>();
@@ -96,11 +92,11 @@ public class AwfulDownloader
 		//String defaultURL = "https://mirrors.neusoft.edu.cn/eclipse/oomph/epp/2020-09/R/eclipse-inst-jre-win64.exe";
 		//String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
 		//String defaultURL = "http://api64.ipify.org/";
-		String defaultURL = "http://lain.bgm.tv/pic/cover/l/7f/4e/209615_iAw8I.jpg";
+		//String defaultURL = "http://lain.bgm.tv/pic/cover/l/7f/4e/209615_iAw8I.jpg";
+		String defaultURL = "http://localhost:7788/op.txt";
 		
 		//AwfulDownloader pdl0 = new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
-		AwfulDownloader pdl = new AwfulDownloader();
-		pdl.download(args.length == 0 ? defaultURL : args[0]);
+		new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
 	}
 	
 	private String getFilename(String path)
