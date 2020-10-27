@@ -46,7 +46,7 @@ public class AwfulDownloaderServer extends Thread
 			OutputStream outputStream = client.getOutputStream();
 			outputStream.write("HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=utf-8\r\n\r\n".getBytes());
 
-			InputStream inputStream = new FileInputStream(requestPath);
+			InputStream inputStream = new FileInputStream(requestPath.replaceFirst("/", ""));
 			byte[] buffer = new byte[8 * 1024];
 			int bytesNum;
 			while((bytesNum = inputStream.read(buffer)) != -1)
@@ -73,7 +73,15 @@ public class AwfulDownloaderServer extends Thread
 		String[] requestPara;
 		try
 		{
-			requestPara = new String(header.readAllBytes(), "UTF-8").replaceAll("\r\n", " ").split(" ");
+			byte[] buffer = new byte[8 * 1024];
+			int bytesNum;
+			String headerText = "";
+			while((bytesNum = header.read(buffer)) != -1)
+			{
+				headerText += new String(buffer, "UTF-8");
+			}
+			//requestPara = new String(header.readNBytes(header.available()), "UTF-8").replaceAll("\r\n", " ").split(" ");
+			requestPara = headerText.replaceAll("\r\n", " ").split(" ");
 			requestMethod = requestPara[0];
 			requestPath = requestPara[1];
 			requestProt = requestPara[2];

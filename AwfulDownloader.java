@@ -36,8 +36,10 @@ public class AwfulDownloader
             request += "Host: " + url.getHost() + ":" + port +"\r\n";
             request += "Connection: close\r\n";
             request += "User-Agent: " + userAgent + "\r\n";
-            PrintWriter pWriter = new PrintWriter(client.getOutputStream(), true);
+            OutputStream requestHeader = client.getOutputStream();
+            PrintWriter pWriter = new PrintWriter(requestHeader, true);
             pWriter.println(request);
+            client.shutdownOutput();
 
 			long startTime = System.currentTimeMillis();
 			InputStream inputStream = client.getInputStream();
@@ -93,7 +95,7 @@ public class AwfulDownloader
 		//String defaultURL = "https://osananajimi.moe/content/images/size/w2000/2020/07/DSC01321.jpg";
 		//String defaultURL = "http://api64.ipify.org/";
 		//String defaultURL = "http://lain.bgm.tv/pic/cover/l/7f/4e/209615_iAw8I.jpg";
-		String defaultURL = "http://localhost:7788/op.txt";
+		String defaultURL = "http://localhost:7788/src/eclipse-inst-jre-win64.exe";
 		
 		//AwfulDownloader pdl0 = new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
 		new AwfulDownloader(args.length == 0 ? defaultURL : args[0]);
